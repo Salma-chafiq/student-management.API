@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace student_manager.API.DataModels
+namespace student_manager.API.DomainModels
 {
-    public class Student 
+    public class Student
     {
         public Guid Id { get; set; }
         public String FirstName { get; set; }
@@ -15,7 +15,7 @@ namespace student_manager.API.DataModels
         public long Mobil { get; set; }
         public string ProfileImageUrl { get; set; }
         public Guid GenderId { get; set; }
-  
+        //Navigation Properties
         public Gender Gender { get; set; }
         public Adress Adress { get; set; }
     }

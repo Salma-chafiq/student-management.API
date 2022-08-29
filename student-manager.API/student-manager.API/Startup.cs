@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,7 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using student_manager.API.DataModels;
+using student_manager.API.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +31,16 @@ namespace student_manager.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
             services.AddDbContext<StudentContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("studentmanagerDb")));
+
+            services.AddScoped<IStudentRepository, SqlStudentRepository>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            });
+            services.AddAutoMapper(typeof(Startup).Assembly);
         }
     
 
@@ -40,7 +51,11 @@ namespace student_manager.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();

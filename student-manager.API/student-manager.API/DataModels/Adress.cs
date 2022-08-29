@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 
 namespace student_manager.API.DataModels
 {
-    public class Gender
+    public class Adress
     {
         public Guid Id { get; set; }
-        public string Description { get; set; }
+        public String PhysicalAddress { get; set; }
+        public string PostalAddress { get; set; }
+        public Guid StudentId { get; set; }
+        
     }
 }
